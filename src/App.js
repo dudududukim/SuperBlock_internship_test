@@ -1,10 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
-import BallonGame from './BallonGame';
+import Board from './BallonGame';
 
 function App() {
   return (
-    <BallonGame />
+    <Board />
   );
 }
 
