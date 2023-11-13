@@ -42,20 +42,24 @@ function Board({ squares }) {
 
     function handlePop(i) {
         //getting hidden map caluation before popping the ballon
-        hiddenMap(isBallon);
+
         //popping ballon and confirming that ballon is right or not
         if (!isBallon[i]) {
             //popped ballon doesn't pop again
             return;
         }
+        const currentHiddenMap = hiddenMap(isBallon);
 
         //cheking is it right ballon
-        rightBalllon(isBallon);
+        const rightBallon = rightBalllon(currentHiddenMap, currentHiddenMap[i]);
+        if (rightBallon) {
+            const newIsBallon = poppingBallon(isBallon, i);
 
-        const newIsBallon = isBallon.slice();
-        newIsBallon[i] = !newIsBallon[i];
-        setIsBallon(newIsBallon);
-        console.log('Popped!');
+            setIsBallon(newIsBallon);
+            console.log('Popped!');
+        } else {
+            console.log('WRONG!!!');
+        }
     }
 
     function handleRestart() {
@@ -71,9 +75,9 @@ function Board({ squares }) {
         <Fragment>
             <button onClick={handleRestart}>restart</button>
             <div className="board-row">
-                {isBallon.map((boxs, i) => {
+                {isBallon.map((boxes, i) => {
                     if (i >= 9 && i <= 14) {
-                        return <BallonBox isBallon={boxs} onBallonClicked={() => handlePop(i)} />;
+                        return <BallonBox isBallon={boxes} onBallonClicked={() => handlePop(i)} />;
                     }
                 })}
             </div>
@@ -127,22 +131,39 @@ function range(start, end) {
 function hiddenMap(isBallon) {
     //using isBallon state, making absoulte map that contains the surround ballon number information
 
-    const hiddenMap = Array(36).fill(0);
-    console.log(playingIndex);
+    const hiddenMap = Array(64).fill(0);
+
     playingIndex.forEach((visibleIndex, i) => {
         const surroundingBallons =
             isBallon[visibleIndex - 8] +
             isBallon[visibleIndex - 1] +
             isBallon[visibleIndex + 1] +
             isBallon[visibleIndex + 8];
-        hiddenMap[i] = isBallon[visibleIndex] ? surroundingBallons : 0;
+        hiddenMap[visibleIndex] = isBallon[visibleIndex] ? surroundingBallons : 0;
         //console.log('index: ' + visibleIndex + 'surroundingBallons: ' + surroundingBallons + 'isBallon[visibleIndex]: '+ isBallon[visibleIndex]);
     });
-    console.log(hiddenMap);
+    //console.log(hiddenMap);
+    return hiddenMap;
 }
 
-function rightBalllon(boxs) {
-    return null;
+function rightBalllon(hiddenMap, surroundingBallonNumber) {
+    if (Math.max(...hiddenMap) === surroundingBallonNumber) {
+        return 'correct';
+    } else {
+        return null;
+    }
+}
+
+function poppingBallon(isBallon, currentBox) {
+    const newIsBallon = isBallon.slice();
+
+    newIsBallon[currentBox] = 0;
+    newIsBallon[currentBox - 8] = 0;
+    newIsBallon[currentBox + 1] = 0;
+    newIsBallon[currentBox - 1] = 0;
+    newIsBallon[currentBox + 8] = 0;
+
+    return newIsBallon;
 }
 
 // const BallonGame = () => {
