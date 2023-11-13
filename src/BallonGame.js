@@ -3,10 +3,20 @@
 isBallon : 풍선이 터졌는가? 
 */
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import './BallonGame.css';
 import normalBallon from './img/normalBallon.jpg';
 import poppedBallon from './img/poppedBallon.png';
+
+//playingIndex : index that the box is actually visible for users
+const playingIndex = [
+    ...range(9, 15),
+    ...range(17, 23),
+    ...range(25, 31),
+    ...range(33, 39),
+    ...range(41, 47),
+    ...range(49, 55),
+];
 
 function BallonBox({ isBallon, onBallonClicked }) {
     //여기서 이제 state들을 다양한 component로 부터 가져오려면,
@@ -26,27 +36,44 @@ function BallonBox({ isBallon, onBallonClicked }) {
     );
 }
 
-
 function Board({ squares }) {
-    const [isBallon, setIsBallon] = useState(Array(64).fill(false));
-    
+    const [isBallon, setIsBallon] = useState(Array(64).fill(0));
+    useEffect(() => handleRestart, []);
+
     function handlePop(i) {
-        if(!isBallon[i]){   //popped ballon doesn't pop again
+        //getting hidden map caluation before popping the ballon
+        hiddenMap(isBallon);
+        //popping ballon and confirming that ballon is right or not
+        if (!isBallon[i]) {
+            //popped ballon doesn't pop again
             return;
         }
+
+        //cheking is it right ballon
+        rightBalllon(isBallon);
+
         const newIsBallon = isBallon.slice();
         newIsBallon[i] = !newIsBallon[i];
         setIsBallon(newIsBallon);
         console.log('Popped!');
     }
 
+    function handleRestart() {
+        //8*8중 사용할 6*6만 random으로 채우는 함수
+        const copyIsBallon = isBallon.slice();
+        playingIndex.forEach((visibleIndex, i) => {
+            copyIsBallon[visibleIndex] = Math.round(Math.random());
+        });
+        setIsBallon(copyIsBallon);
+    }
+
     return (
         <Fragment>
-            <button onClick={()=> setIsBallon(Array.from({length: 64}, () => Math.round(Math.random())))}>restart</button>
+            <button onClick={handleRestart}>restart</button>
             <div className="board-row">
-                {isBallon.map((box, i) => {
+                {isBallon.map((boxs, i) => {
                     if (i >= 9 && i <= 14) {
-                        return <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />;
+                        return <BallonBox isBallon={boxs} onBallonClicked={() => handlePop(i)} />;
                     }
                 })}
             </div>
@@ -87,6 +114,35 @@ function Board({ squares }) {
             </div>
         </Fragment>
     );
+}
+
+function range(start, end) {
+    let array = [];
+    for (let i = start; i < end; ++i) {
+        array.push(i);
+    }
+    return array;
+}
+
+function hiddenMap(isBallon) {
+    //using isBallon state, making absoulte map that contains the surround ballon number information
+
+    const hiddenMap = Array(36).fill(0);
+    console.log(playingIndex);
+    playingIndex.forEach((visibleIndex, i) => {
+        const surroundingBallons =
+            isBallon[visibleIndex - 8] +
+            isBallon[visibleIndex - 1] +
+            isBallon[visibleIndex + 1] +
+            isBallon[visibleIndex + 8];
+        hiddenMap[i] = isBallon[visibleIndex] ? surroundingBallons : 0;
+        //console.log('index: ' + visibleIndex + 'surroundingBallons: ' + surroundingBallons + 'isBallon[visibleIndex]: '+ isBallon[visibleIndex]);
+    });
+    console.log(hiddenMap);
+}
+
+function rightBalllon(boxs) {
+    return null;
 }
 
 // const BallonGame = () => {
