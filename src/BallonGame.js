@@ -1,13 +1,24 @@
+//state로 써야하는것
+/* 
+isBallon : 풍선이 터졌는가? 
+*/
+
 import React, { Fragment, useState } from 'react';
 import './BallonGame.css';
 import normalBallon from './img/normalBallon.jpg';
 import poppedBallon from './img/poppedBallon.png';
 
-function BallonBox() {
+function BallonBox({isBallon}) {
+
+    function handlePop(){
+        console.log('Popped!');
+        isBallon = !isBallon;
+        console.log(isBallon);//state안쓰니까 요소가 바로 update되진 않음
+    }
     return (
         <Fragment>
-            <button className="ballonBox">
-                <img className="ballonImage" src={normalBallon} alt="ballonBox" />
+            <button className="ballonBox" onClick={handlePop}>
+                <img className="ballonImage" src={normalBallon} alt="ballonBox"style={{display: isBallon ? 'inline' : 'none' }} />
             </button>
         </Fragment>
     );
@@ -16,12 +27,12 @@ function BallonBox() {
 function Board({ squares }) {
     return (<>
         <div className='board-row'>
+            <BallonBox isBallon = {false} />
+            <BallonBox isBallon = {true} />
+            <BallonBox isBallon = {true} />
             <BallonBox />
             <BallonBox />
-            <BallonBox />
-            <BallonBox />
-            <BallonBox />
-            <BallonBox />
+            <BallonBox isBallon = {true}/>
         </div>
         <div className='board-row'>
             <BallonBox />
