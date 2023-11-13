@@ -8,11 +8,10 @@ import './BallonGame.css';
 import normalBallon from './img/normalBallon.jpg';
 import poppedBallon from './img/poppedBallon.png';
 
-function BallonBox({isBallon, onBallonClicked}) {
-    
-    //여기서 이제 state들을 다양한 component로 부터 가져오려면, 
+function BallonBox({ isBallon, onBallonClicked }) {
+    //여기서 이제 state들을 다양한 component로 부터 가져오려면,
     //declare the shared state in their parent component instead를 해야됨
-    
+
     return (
         <Fragment>
             <button className="ballonBox" onClick={onBallonClicked}>
@@ -28,66 +27,60 @@ function BallonBox({isBallon, onBallonClicked}) {
 }
 
 function Board({ squares }) {
-    const [isBallon, setIsBallon] = useState(Array(8).fill(Array(8).fill(true)));
+    const [isBallon, setIsBallon] = useState(Array(64).fill(true));
 
-    function handlePop() {
+    function handlePop(i) {
         const newIsBallon = isBallon.slice();
-        newIsBallon[1][1] = !newIsBallon[1][1];
+        newIsBallon[i] = !newIsBallon[i];
         setIsBallon(newIsBallon);
         console.log('Popped!');
     }
 
     return (
-        <>
+        <Fragment>
             <div className="board-row">
-                <BallonBox isBallon = {isBallon[1][1]} onBallonClicked = {handlePop}/>
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
+                {isBallon.map((box, i) => {
+                    if (i >= 9 && i <= 14) {
+                        return <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />;
+                    }
+                })}
             </div>
             <div className="board-row">
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
+                {isBallon.map((box, i) => {
+                    if (i >= 17 && i <= 22) {
+                        return <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />;
+                    }
+                })}
             </div>
             <div className="board-row">
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
+                {isBallon.map((box, i) => {
+                    if (i >= 25 && i <= 30) {
+                        return <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />;
+                    }
+                })}
             </div>
             <div className="board-row">
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
+                {isBallon.map((box, i) => {
+                    if (i >= 33 && i <= 38) {
+                        return <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />;
+                    }
+                })}
             </div>
             <div className="board-row">
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
+                {isBallon.map((box, i) => {
+                    if (i >= 41 && i <= 46) {
+                        return <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />;
+                    }
+                })}
             </div>
             <div className="board-row">
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
-                <BallonBox />
+                {isBallon.map((box, i) => {
+                    if (i >= 49 && i <= 54) {
+                        return <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />;
+                    }
+                })}
             </div>
-        </>
+        </Fragment>
     );
 }
 
