@@ -18,7 +18,9 @@
     content: '';
     display: table;
 }
-
+.status{
+    margin-bottom: 10px;
+}
 .game{
     margin-top: 20px;
     display: flex;

@@ -5,6 +5,8 @@ isBallon : 풍선이 터졌는가?
 
 import React, { Fragment, useState, useEffect } from 'react';
 import './BallonGame.css';
+import Modal from 'react-modal';
+
 import normalBallon from './img/normalBallon.jpg';
 import poppedBallon from './img/poppedBallon.png';
 
@@ -38,6 +40,9 @@ function BallonBox({ isBallon, onBallonClicked }) {
 
 function Board({ squares }) {
     const [isBallon, setIsBallon] = useState(Array(64).fill(0));
+    const [status, setStatus] = useState('');
+    const [gameStarted, setGameStarted] = useState(false);
+    //동기 처리를 정확히 이해하지 못해서 일단 인자하나 추가
     useEffect(() => handleRestart, []);
 
     function handlePop(i) {
@@ -51,15 +56,26 @@ function Board({ squares }) {
         const currentHiddenMap = hiddenMap(isBallon);
 
         //cheking is it right ballon
-        const rightBallon = rightBalllon(currentHiddenMap, currentHiddenMap[i]);
-        if (rightBallon) {
+        const rightBallon = rightBalllonCheck(currentHiddenMap, currentHiddenMap[i]);
+        if (rightBallon === 'correct') {
             const newIsBallon = poppingBallon(isBallon, i);
-
             setIsBallon(newIsBallon);
+            setStatus('Correct');
             console.log('Popped!');
         } else {
+            setStatus('Failed!!');
+            alert('GameOver', handleRestart());
             console.log('WRONG!!!');
         }
+        setGameStarted(true);
+    }
+
+    const gameClear = gameClearCheck(isBallon);
+    if (gameClear && gameStarted) {
+        setStatus("Conguratulation");
+        setGameStarted(false);
+
+
     }
 
     function handleRestart() {
@@ -69,11 +85,14 @@ function Board({ squares }) {
             copyIsBallon[visibleIndex] = Math.round(Math.random());
         });
         setIsBallon(copyIsBallon);
+        setStatus('Game Start!');
+        setGameStarted(false);
     }
 
     return (
         <Fragment>
-            <button onClick={handleRestart}>restart</button>
+            <div className="status">{status}</div> <button style = {{ display: gameClear ? 'inline' : 'none' }} onClick={()=>handleRestart()}>RESTART</button>
+
             <div className="board-row">
                 {isBallon.map((boxes, i) => {
                     if (i >= 9 && i <= 14) {
@@ -120,6 +139,15 @@ function Board({ squares }) {
     );
 }
 
+function gameClearCheck(isBallon) {
+    console.log(isBallon);
+    if (Math.max(...isBallon) === 0) {
+        return 'game clear';
+    } else {
+        return null;
+    }
+}
+
 function range(start, end) {
     let array = [];
     for (let i = start; i < end; ++i) {
@@ -146,11 +174,11 @@ function hiddenMap(isBallon) {
     return hiddenMap;
 }
 
-function rightBalllon(hiddenMap, surroundingBallonNumber) {
+function rightBalllonCheck(hiddenMap, surroundingBallonNumber) {
     if (Math.max(...hiddenMap) === surroundingBallonNumber) {
         return 'correct';
     } else {
-        return null;
+        return 'Failed!!';
     }
 }
 
