@@ -8,15 +8,14 @@ import './BallonGame.css';
 import normalBallon from './img/normalBallon.jpg';
 import poppedBallon from './img/poppedBallon.png';
 
-function BallonBox() {
-    const [isBallon, setIsBallon] = useState(true);
-    function handlePop() {
-        setIsBallon(!isBallon);
-        console.log('Popped!');
-    }
+function BallonBox({isBallon, onBallonClicked}) {
+    
+    //여기서 이제 state들을 다양한 component로 부터 가져오려면, 
+    //declare the shared state in their parent component instead를 해야됨
+    
     return (
         <Fragment>
-            <button className="ballonBox" onClick={handlePop}>
+            <button className="ballonBox" onClick={onBallonClicked}>
                 <img
                     className="ballonImage"
                     src={normalBallon}
@@ -29,10 +28,19 @@ function BallonBox() {
 }
 
 function Board({ squares }) {
+    const [isBallon, setIsBallon] = useState(Array(8).fill(Array(8).fill(true)));
+
+    function handlePop() {
+        const newIsBallon = isBallon.slice();
+        newIsBallon[1][1] = !newIsBallon[1][1];
+        setIsBallon(newIsBallon);
+        console.log('Popped!');
+    }
+
     return (
         <>
             <div className="board-row">
-                <BallonBox />
+                <BallonBox isBallon = {isBallon[1][1]} onBallonClicked = {handlePop}/>
                 <BallonBox />
                 <BallonBox />
                 <BallonBox />
