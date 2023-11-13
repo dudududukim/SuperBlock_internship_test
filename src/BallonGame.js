@@ -26,10 +26,14 @@ function BallonBox({ isBallon, onBallonClicked }) {
     );
 }
 
-function Board({ squares }) {
-    const [isBallon, setIsBallon] = useState(Array(64).fill(true));
 
+function Board({ squares }) {
+    const [isBallon, setIsBallon] = useState(Array(64).fill(false));
+    
     function handlePop(i) {
+        if(!isBallon[i]){   //popped ballon doesn't pop again
+            return;
+        }
         const newIsBallon = isBallon.slice();
         newIsBallon[i] = !newIsBallon[i];
         setIsBallon(newIsBallon);
@@ -38,6 +42,7 @@ function Board({ squares }) {
 
     return (
         <Fragment>
+            <button onClick={()=> setIsBallon(Array.from({length: 64}, () => Math.round(Math.random())))}>restart</button>
             <div className="board-row">
                 {isBallon.map((box, i) => {
                     if (i >= 9 && i <= 14) {
