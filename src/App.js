@@ -22,7 +22,6 @@ const App = () => {
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>
             <div className="App" id={theme}>
-                
                 <DarkModeSwitch
                     style={{ marginBottom: '2rem' }}
                     checked={isDarkMode}

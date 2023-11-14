@@ -1,6 +1,9 @@
 //state로 써야하는것
 /* 
-isBallon : 풍선이 터졌는가? 
+isBallon : 풍선이 터졌는가?
+status: 게임의 상태 success or failed or correctly popped
+gameStarted: to checked game is flowing
+sliderValue: that gets from slider the value
 */
 
 import React, { Fragment, useState, useEffect } from 'react';
@@ -40,19 +43,16 @@ function BallonBox({ isBallon, isGameStarted, onBallonClicked }) {
     );
 }
 
-function Board({theme}) {
+function Board({ theme }) {
     const [isBallon, setIsBallon] = useState(Array(64).fill(0));
     const [status, setStatus] = useState('');
-    const [gameStarted, setGameStarted] = useState(false);
+    const [gameStarted, setGameStarted] = useState(true);
     const [sliderValue, setSliderValue] = useState(50);
+
     function handleRangeSlider(event, value) {
-        document.documentElement.style.setProperty('--gridSize', value+'px');
+        document.documentElement.style.setProperty('--gridSize', value*Math.min(window.innerHeight, window.innerWidth)/820 + 'px');
         setSliderValue(value);
     }
-    //동기 처리를 정확히 이해하지 못해서 일단 인자하나 추가
-
-    //only called when rendered
-    useEffect(() => handleRestart, []);
 
     function handlePop(i) {
         //getting hidden map caluation before popping the ballon
@@ -86,12 +86,6 @@ function Board({theme}) {
         }
     }, [isBallon]);
 
-    // const gameClear = gameClearCheck(isBallon);
-    // if (gameClear && gameStarted) {
-    //     setStatus('Conguratulation');
-    //     setGameStarted(false);
-    // }
-
     function handleRestart() {
         //8*8중 사용할 6*6만 random으로 채우는 함수
         const copyIsBallon = isBallon.slice();
@@ -103,16 +97,29 @@ function Board({theme}) {
         setGameStarted(true);
     }
 
+    function gameClearCheck() {
+        console.log('clear check');
+        if (Math.max(...isBallon) === 0) {
+            return 'game clear';
+        } else {
+            return null;
+        }
+    }
+
+    //only called when rendered
+    useEffect(handleRestart, []);
+
+
     return (
         <Fragment>
             <div className="infoBox">
                 <div className="sliderBox">
-                    <Box sx={{ width: 150 }}>
+                    <Box sx={{ width: window.innerWidth/10 }}>
                         <Slider
                             size="small"
-                            defaultValue={50}
-                            max={77}
-                            min={30}
+                            defaultValue={40}
+                            max={100}
+                            min={20}
                             aria-label="small"
                             className="slider"
                             color={theme === 'light' ? 'success' : 'secondary'}
@@ -216,15 +223,7 @@ function Board({theme}) {
     );
 }
 
-function gameClearCheck(isBallon) {
-    console.log('clear check');
-    if (Math.max(...isBallon) === 0) {
-        return 'game clear';
-    } else {
-        return null;
-    }
-}
-
+//making array that has the number from 'start' to 'end'
 function range(start, end) {
     let array = [];
     for (let i = start; i < end; ++i) {
@@ -233,9 +232,8 @@ function range(start, end) {
     return array;
 }
 
+//using isBallon state, making absoulte map that contains the surround ballon number information
 function hiddenMap(isBallon) {
-    //using isBallon state, making absoulte map that contains the surround ballon number information
-
     const hiddenMap = Array(64).fill(0);
 
     playingIndex.forEach((visibleIndex, i) => {
@@ -245,12 +243,12 @@ function hiddenMap(isBallon) {
             isBallon[visibleIndex + 1] +
             isBallon[visibleIndex + 8];
         hiddenMap[visibleIndex] = isBallon[visibleIndex] ? surroundingBallons : 0;
-        //console.log('index: ' + visibleIndex + 'surroundingBallons: ' + surroundingBallons + 'isBallon[visibleIndex]: '+ isBallon[visibleIndex]);
     });
     //console.log(hiddenMap);
     return hiddenMap;
 }
 
+//checking clicked ballon has the most surrounding ballons
 function rightBalllonCheck(hiddenMap, surroundingBallonNumber) {
     if (Math.max(...hiddenMap) === surroundingBallonNumber) {
         return 'correct';
@@ -259,6 +257,7 @@ function rightBalllonCheck(hiddenMap, surroundingBallonNumber) {
     }
 }
 
+//popping ballons that clicked with surrounding ballons
 function poppingBallon(isBallon, currentBox) {
     const newIsBallon = isBallon.slice();
 
@@ -271,18 +270,5 @@ function poppingBallon(isBallon, currentBox) {
     return newIsBallon;
 }
 
-// const BallonGame = () => {
-//     const [boardInfo, setBoardInfo] = useState([{ballonExists: '', surroundingBallons: 0}]);
-//     //board 각 칸에 풍선이 있는가? 그 칸 주위에 몇개의 풍선이 있는가?
-//     const [unmberMap, setNumberMap] = useState(Array(36).fill(0));
-//     //boardInfo에서 surroundingBallons 정보만 가지고 36개의 1차원 배열로 선언
-
-//     console.log(Math.round(Math.random));
-//     return (
-//         <div className="game">
-//             <div className="game-board"></div>
-//         </div>
-//     );
-// };
 
 export default Board;

@@ -1,5 +1,5 @@
 html {
-    --gridSize: 64px;
+    --gridSize: calc(3vw);
   }
 
 .ballonBox {
@@ -69,11 +69,11 @@ html {
 
 .sliderBox {
     height: 40px;
-    width: 150px;
     position: absolute;
     top: 10%;
     left: 50%;
-    margin: -20px 0 0 -75px;
+    margin-top: -20px;
+    margin-left: calc(-5vw);
 }
 
 #dark .restartButton {
