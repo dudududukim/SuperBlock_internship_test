@@ -42,3 +42,15 @@ body > #root > div {
     transform: rotate(360deg);
   }
 }
+
+.toggleSwitch{
+  margin-top: 15px;
+}
+
+#light{
+  background-color: #61dafb;
+}
+
+#dark{
+  background-color: #0d7b8c;
+}

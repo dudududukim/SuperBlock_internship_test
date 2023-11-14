@@ -89,13 +89,16 @@ function Board({ squares }) {
 
     return (
         <Fragment>
-            <div className="status">{status}</div>{' '}
-            <button
-                style={{ display: gameClear ? 'inline' : 'none' }}
-                onClick={() => handleRestart()}
-            >
-                RESTART
-            </button>
+            <div className="infoBox">
+                <div className="status">{status}</div>{' '}
+                <button
+                    style={{ display: gameClear ? 'inline' : 'none' }}
+                    onClick={() => handleRestart()}
+                >
+                    RESTART
+                </button>
+            </div>
+
             <div className="fullBoard">
                 <div className="board-row">
                     {isBallon.map((boxes, i) => {

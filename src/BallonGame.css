@@ -13,6 +13,19 @@
     width: 64px;
 }
 
+#dark .ballonBox{
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.infoBox{
+    
+    font-weight: bold;
+}
+
+#dark .infoBox{
+    color: white;
+}
+
 .fullBoard{
     margin-top: 15px;
     margin-bottom: 15px;
