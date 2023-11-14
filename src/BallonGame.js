@@ -5,7 +5,9 @@ isBallon : 풍선이 터졌는가?
 
 import React, { Fragment, useState, useEffect } from 'react';
 import './BallonGame.css';
-import Modal from 'react-modal';
+
+import Slider from '@mui/material/Slider';
+import { Box } from '@mui/material';
 
 import normalBallon from './img/normalBallon.png';
 import poppedBallon from './img/poppedBallon.png';
@@ -20,13 +22,13 @@ const playingIndex = [
     ...range(49, 55),
 ];
 
-function BallonBox({ isBallon, isGameStarted , onBallonClicked }) {
+function BallonBox({ isBallon, isGameStarted, onBallonClicked }) {
     //여기서 이제 state들을 다양한 component로 부터 가져오려면,
     //declare the shared state in their parent component instead를 해야됨
 
     return (
         <Fragment>
-            <button className="ballonBox" onClick={isGameStarted ? onBallonClicked: null}>
+            <button className="ballonBox" onClick={isGameStarted ? onBallonClicked : null}>
                 <img
                     className="ballonImage"
                     src={normalBallon}
@@ -41,8 +43,14 @@ function BallonBox({ isBallon, isGameStarted , onBallonClicked }) {
 function Board({ squares }) {
     const [isBallon, setIsBallon] = useState(Array(64).fill(0));
     const [status, setStatus] = useState('');
-    const [gameStarted, setGameStarted] = useState(true);
+    const [gameStarted, setGameStarted] = useState(false);
+    const [sliderValue, setSliderValue] = useState(50);
+    function handleRangeSlider(event, value) {
+        setSliderValue(value);
+    }
     //동기 처리를 정확히 이해하지 못해서 일단 인자하나 추가
+
+    //only called when rendered
     useEffect(() => handleRestart, []);
 
     function handlePop(i) {
@@ -62,7 +70,6 @@ function Board({ squares }) {
             setIsBallon(newIsBallon);
             setStatus('Correct');
             console.log('Popped!');
-            
         } else {
             setStatus('----GameOver----');
             setGameStarted(false);
@@ -71,11 +78,18 @@ function Board({ squares }) {
         }
     }
 
-    const gameClear = gameClearCheck(isBallon);
-    if (gameClear && gameStarted) {
-        setStatus('Conguratulation');
-        setGameStarted(false);
-    }
+    useEffect(() => {
+        if (gameClearCheck(isBallon) && gameStarted) {
+            setStatus('Conguratulation');
+            setGameStarted(false);
+        }
+    }, [isBallon]);
+
+    // const gameClear = gameClearCheck(isBallon);
+    // if (gameClear && gameStarted) {
+    //     setStatus('Conguratulation');
+    //     setGameStarted(false);
+    // }
 
     function handleRestart() {
         //8*8중 사용할 6*6만 random으로 채우는 함수
@@ -91,6 +105,20 @@ function Board({ squares }) {
     return (
         <Fragment>
             <div className="infoBox">
+                <div className="sliderBox">
+                    <Box sx={{ width: 150 }}>
+                        <Slider
+                            size="small"
+                            defaultValue={50}
+                            aria-label="small"
+                            valueLabelDisplay="auto"
+                            className="slider"
+                            color="success"
+                            value={sliderValue}
+                            onChange={handleRangeSlider}
+                        />
+                    </Box>
+                </div>
                 <div className="status">{status}</div>{' '}
                 <button
                     variant="outlined"
@@ -107,7 +135,11 @@ function Board({ squares }) {
                     {isBallon.map((boxes, i) => {
                         if (i >= 9 && i <= 14) {
                             return (
-                                <BallonBox isBallon={boxes} isGameStarted = {gameStarted} onBallonClicked={() => handlePop(i)} />
+                                <BallonBox
+                                    isBallon={boxes}
+                                    isGameStarted={gameStarted}
+                                    onBallonClicked={() => handlePop(i)}
+                                />
                             );
                         }
                     })}
@@ -116,7 +148,11 @@ function Board({ squares }) {
                     {isBallon.map((box, i) => {
                         if (i >= 17 && i <= 22) {
                             return (
-                                <BallonBox isBallon={box} isGameStarted = {gameStarted} onBallonClicked={() => handlePop(i)} />
+                                <BallonBox
+                                    isBallon={box}
+                                    isGameStarted={gameStarted}
+                                    onBallonClicked={() => handlePop(i)}
+                                />
                             );
                         }
                     })}
@@ -125,7 +161,11 @@ function Board({ squares }) {
                     {isBallon.map((box, i) => {
                         if (i >= 25 && i <= 30) {
                             return (
-                                <BallonBox isBallon={box} isGameStarted = {gameStarted} onBallonClicked={() => handlePop(i)} />
+                                <BallonBox
+                                    isBallon={box}
+                                    isGameStarted={gameStarted}
+                                    onBallonClicked={() => handlePop(i)}
+                                />
                             );
                         }
                     })}
@@ -134,7 +174,11 @@ function Board({ squares }) {
                     {isBallon.map((box, i) => {
                         if (i >= 33 && i <= 38) {
                             return (
-                                <BallonBox isBallon={box} isGameStarted = {gameStarted} onBallonClicked={() => handlePop(i)} />
+                                <BallonBox
+                                    isBallon={box}
+                                    isGameStarted={gameStarted}
+                                    onBallonClicked={() => handlePop(i)}
+                                />
                             );
                         }
                     })}
@@ -143,7 +187,11 @@ function Board({ squares }) {
                     {isBallon.map((box, i) => {
                         if (i >= 41 && i <= 46) {
                             return (
-                                <BallonBox isBallon={box} isGameStarted = {gameStarted} onBallonClicked={() => handlePop(i)} />
+                                <BallonBox
+                                    isBallon={box}
+                                    isGameStarted={gameStarted}
+                                    onBallonClicked={() => handlePop(i)}
+                                />
                             );
                         }
                     })}
@@ -152,7 +200,11 @@ function Board({ squares }) {
                     {isBallon.map((box, i) => {
                         if (i >= 49 && i <= 54) {
                             return (
-                                <BallonBox isBallon={box} isGameStarted = {gameStarted} onBallonClicked={() => handlePop(i)} />
+                                <BallonBox
+                                    isBallon={box}
+                                    isGameStarted={gameStarted}
+                                    onBallonClicked={() => handlePop(i)}
+                                />
                             );
                         }
                     })}
@@ -163,6 +215,7 @@ function Board({ squares }) {
 }
 
 function gameClearCheck(isBallon) {
+    console.log('clear check');
     if (Math.max(...isBallon) === 0) {
         return 'game clear';
     } else {

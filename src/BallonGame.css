@@ -31,7 +31,7 @@
 }
 
 .infoBox {
-    height: 10%;
+    height: 13%;
     font-weight: bold;
     position: relative;
     margin-bottom: 10px;
@@ -45,10 +45,11 @@
     height: 25px;
     width: 150px;
     position: absolute;
-    top: 30%;
+    top: 40%;
     left: 50%;
     margin: -12.5px 0 0 -75px;
 }
+
 .restartButton {
     background-color: #fa8c0f;
     color: #fffbf7;
@@ -57,12 +58,21 @@
     height: 25px;
     width: 150px;
     position: absolute;
-    top: 75%;
+    top: 85%;
     left: 50%;
     margin: -12.5px 0 0 -75px;
 }
 
-#dark .restartButton{
+.sliderBox {
+    height: 40px;
+    width: 150px;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    margin: -20px 0 0 -75px;
+}
+
+#dark .restartButton {
     background-color: #e374c9;
     color: #2e1628;
     font-weight: bold;

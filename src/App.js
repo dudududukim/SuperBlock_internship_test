@@ -2,7 +2,6 @@ import './App.css';
 import Board from './BallonGame';
 import { createContext, useCallback, useState } from 'react';
 
-
 //switching toggle url
 //https://www.npmjs.com/package/react-toggle-dark-mode
 import * as React from 'react';
@@ -23,6 +22,7 @@ const App = () => {
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>
             <div className="App" id={theme}>
+                
                 <DarkModeSwitch
                     style={{ marginBottom: '2rem' }}
                     checked={isDarkMode}
@@ -30,7 +30,7 @@ const App = () => {
                     moonColor="#d6d383"
                     sunColor="#fff7e6"
                     size={80}
-                    className='toggleSwitch'
+                    className="toggleSwitch"
                 />
                 <Board />
             </div>
