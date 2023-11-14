@@ -1,10 +1,12 @@
 import './App.css';
 import Board from './BallonGame';
 
-function App() {
-  return (
-    <Board />
-  );
-}
+const App = () => {
+    return (
+        <div className='App' id='light-mode'>
+            <Board />
+        </div>
+    );
+};
 
 export default App;

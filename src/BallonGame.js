@@ -7,7 +7,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import './BallonGame.css';
 import Modal from 'react-modal';
 
-import normalBallon from './img/normalBallon.jpg';
+import normalBallon from './img/normalBallon.png';
 import poppedBallon from './img/poppedBallon.png';
 
 //playingIndex : index that the box is actually visible for users
@@ -72,10 +72,8 @@ function Board({ squares }) {
 
     const gameClear = gameClearCheck(isBallon);
     if (gameClear && gameStarted) {
-        setStatus("Conguratulation");
+        setStatus('Conguratulation');
         setGameStarted(false);
-
-
     }
 
     function handleRestart() {
@@ -91,56 +89,74 @@ function Board({ squares }) {
 
     return (
         <Fragment>
-            <div className="status">{status}</div> <button style = {{ display: gameClear ? 'inline' : 'none' }} onClick={()=>handleRestart()}>RESTART</button>
-
-            <div className="board-row">
-                {isBallon.map((boxes, i) => {
-                    if (i >= 9 && i <= 14) {
-                        return <BallonBox isBallon={boxes} onBallonClicked={() => handlePop(i)} />;
-                    }
-                })}
-            </div>
-            <div className="board-row">
-                {isBallon.map((box, i) => {
-                    if (i >= 17 && i <= 22) {
-                        return <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />;
-                    }
-                })}
-            </div>
-            <div className="board-row">
-                {isBallon.map((box, i) => {
-                    if (i >= 25 && i <= 30) {
-                        return <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />;
-                    }
-                })}
-            </div>
-            <div className="board-row">
-                {isBallon.map((box, i) => {
-                    if (i >= 33 && i <= 38) {
-                        return <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />;
-                    }
-                })}
-            </div>
-            <div className="board-row">
-                {isBallon.map((box, i) => {
-                    if (i >= 41 && i <= 46) {
-                        return <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />;
-                    }
-                })}
-            </div>
-            <div className="board-row">
-                {isBallon.map((box, i) => {
-                    if (i >= 49 && i <= 54) {
-                        return <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />;
-                    }
-                })}
+            <div className="status">{status}</div>{' '}
+            <button
+                style={{ display: gameClear ? 'inline' : 'none' }}
+                onClick={() => handleRestart()}
+            >
+                RESTART
+            </button>
+            <div className="fullBoard">
+                <div className="board-row">
+                    {isBallon.map((boxes, i) => {
+                        if (i >= 9 && i <= 14) {
+                            return (
+                                <BallonBox isBallon={boxes} onBallonClicked={() => handlePop(i)} />
+                            );
+                        }
+                    })}
+                </div>
+                <div className="board-row">
+                    {isBallon.map((box, i) => {
+                        if (i >= 17 && i <= 22) {
+                            return (
+                                <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />
+                            );
+                        }
+                    })}
+                </div>
+                <div className="board-row">
+                    {isBallon.map((box, i) => {
+                        if (i >= 25 && i <= 30) {
+                            return (
+                                <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />
+                            );
+                        }
+                    })}
+                </div>
+                <div className="board-row">
+                    {isBallon.map((box, i) => {
+                        if (i >= 33 && i <= 38) {
+                            return (
+                                <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />
+                            );
+                        }
+                    })}
+                </div>
+                <div className="board-row">
+                    {isBallon.map((box, i) => {
+                        if (i >= 41 && i <= 46) {
+                            return (
+                                <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />
+                            );
+                        }
+                    })}
+                </div>
+                <div className="board-row">
+                    {isBallon.map((box, i) => {
+                        if (i >= 49 && i <= 54) {
+                            return (
+                                <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />
+                            );
+                        }
+                    })}
+                </div>
             </div>
         </Fragment>
     );
 }
 
 function gameClearCheck(isBallon) {
-    console.log(isBallon);
     if (Math.max(...isBallon) === 0) {
         return 'game clear';
     } else {
