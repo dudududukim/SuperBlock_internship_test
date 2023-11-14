@@ -1,3 +1,7 @@
+html {
+    --gridSize: 64px;
+  }
+
 .ballonBox {
     background: rgba(255, 255, 255, 0.5);
     border: 1px solid #222;
@@ -5,12 +9,12 @@
     font-size: 24px;
     font-weight: bold;
     line-height: 34px;
-    height: 64px;
     margin-right: -1px;
     margin-top: -1px;
     padding: 0;
     text-align: center;
-    width: 64px;
+    height: var(--gridSize);
+    width: var(--gridSize);
 }
 
 #dark .ballonBox {
@@ -34,7 +38,7 @@
     height: 13%;
     font-weight: bold;
     position: relative;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 #dark .infoBox {

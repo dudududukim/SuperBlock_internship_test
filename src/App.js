@@ -32,7 +32,7 @@ const App = () => {
                     size={80}
                     className="toggleSwitch"
                 />
-                <Board />
+                <Board theme={theme} />
             </div>
         </ThemeContext.Provider>
     );

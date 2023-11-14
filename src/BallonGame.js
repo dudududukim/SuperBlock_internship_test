@@ -40,12 +40,13 @@ function BallonBox({ isBallon, isGameStarted, onBallonClicked }) {
     );
 }
 
-function Board({ squares }) {
+function Board({theme}) {
     const [isBallon, setIsBallon] = useState(Array(64).fill(0));
     const [status, setStatus] = useState('');
     const [gameStarted, setGameStarted] = useState(false);
     const [sliderValue, setSliderValue] = useState(50);
     function handleRangeSlider(event, value) {
+        document.documentElement.style.setProperty('--gridSize', value+'px');
         setSliderValue(value);
     }
     //동기 처리를 정확히 이해하지 못해서 일단 인자하나 추가
@@ -110,10 +111,11 @@ function Board({ squares }) {
                         <Slider
                             size="small"
                             defaultValue={50}
+                            max={77}
+                            min={30}
                             aria-label="small"
-                            valueLabelDisplay="auto"
                             className="slider"
-                            color="success"
+                            color={theme === 'light' ? 'success' : 'secondary'}
                             value={sliderValue}
                             onChange={handleRangeSlider}
                         />
