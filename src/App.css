@@ -45,6 +45,7 @@ body > #root > div {
 
 .toggleSwitch{
   margin-top: 15px;
+  padding-left: 40px;
 }
 
 #light{

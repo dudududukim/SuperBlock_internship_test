@@ -20,13 +20,13 @@ const playingIndex = [
     ...range(49, 55),
 ];
 
-function BallonBox({ isBallon, onBallonClicked }) {
+function BallonBox({ isBallon, isGameStarted , onBallonClicked }) {
     //여기서 이제 state들을 다양한 component로 부터 가져오려면,
     //declare the shared state in their parent component instead를 해야됨
 
     return (
         <Fragment>
-            <button className="ballonBox" onClick={onBallonClicked}>
+            <button className="ballonBox" onClick={isGameStarted ? onBallonClicked: null}>
                 <img
                     className="ballonImage"
                     src={normalBallon}
@@ -41,7 +41,7 @@ function BallonBox({ isBallon, onBallonClicked }) {
 function Board({ squares }) {
     const [isBallon, setIsBallon] = useState(Array(64).fill(0));
     const [status, setStatus] = useState('');
-    const [gameStarted, setGameStarted] = useState(false);
+    const [gameStarted, setGameStarted] = useState(true);
     //동기 처리를 정확히 이해하지 못해서 일단 인자하나 추가
     useEffect(() => handleRestart, []);
 
@@ -62,12 +62,13 @@ function Board({ squares }) {
             setIsBallon(newIsBallon);
             setStatus('Correct');
             console.log('Popped!');
+            
         } else {
-            setStatus('Failed!!');
-            alert('GameOver', handleRestart());
+            setStatus('----GameOver----');
+            setGameStarted(false);
             console.log('WRONG!!!');
+            return;
         }
-        setGameStarted(true);
     }
 
     const gameClear = gameClearCheck(isBallon);
@@ -84,7 +85,7 @@ function Board({ squares }) {
         });
         setIsBallon(copyIsBallon);
         setStatus('Game Start!');
-        setGameStarted(false);
+        setGameStarted(true);
     }
 
     return (
@@ -92,7 +93,9 @@ function Board({ squares }) {
             <div className="infoBox">
                 <div className="status">{status}</div>{' '}
                 <button
-                    style={{ display: gameClear ? 'inline' : 'none' }}
+                    variant="outlined"
+                    style={{ display: gameStarted ? 'none' : 'inline' }}
+                    className="restartButton"
                     onClick={() => handleRestart()}
                 >
                     RESTART
@@ -104,7 +107,7 @@ function Board({ squares }) {
                     {isBallon.map((boxes, i) => {
                         if (i >= 9 && i <= 14) {
                             return (
-                                <BallonBox isBallon={boxes} onBallonClicked={() => handlePop(i)} />
+                                <BallonBox isBallon={boxes} isGameStarted = {gameStarted} onBallonClicked={() => handlePop(i)} />
                             );
                         }
                     })}
@@ -113,7 +116,7 @@ function Board({ squares }) {
                     {isBallon.map((box, i) => {
                         if (i >= 17 && i <= 22) {
                             return (
-                                <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />
+                                <BallonBox isBallon={box} isGameStarted = {gameStarted} onBallonClicked={() => handlePop(i)} />
                             );
                         }
                     })}
@@ -122,7 +125,7 @@ function Board({ squares }) {
                     {isBallon.map((box, i) => {
                         if (i >= 25 && i <= 30) {
                             return (
-                                <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />
+                                <BallonBox isBallon={box} isGameStarted = {gameStarted} onBallonClicked={() => handlePop(i)} />
                             );
                         }
                     })}
@@ -131,7 +134,7 @@ function Board({ squares }) {
                     {isBallon.map((box, i) => {
                         if (i >= 33 && i <= 38) {
                             return (
-                                <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />
+                                <BallonBox isBallon={box} isGameStarted = {gameStarted} onBallonClicked={() => handlePop(i)} />
                             );
                         }
                     })}
@@ -140,7 +143,7 @@ function Board({ squares }) {
                     {isBallon.map((box, i) => {
                         if (i >= 41 && i <= 46) {
                             return (
-                                <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />
+                                <BallonBox isBallon={box} isGameStarted = {gameStarted} onBallonClicked={() => handlePop(i)} />
                             );
                         }
                     })}
@@ -149,7 +152,7 @@ function Board({ squares }) {
                     {isBallon.map((box, i) => {
                         if (i >= 49 && i <= 54) {
                             return (
-                                <BallonBox isBallon={box} onBallonClicked={() => handlePop(i)} />
+                                <BallonBox isBallon={box} isGameStarted = {gameStarted} onBallonClicked={() => handlePop(i)} />
                             );
                         }
                     })}
