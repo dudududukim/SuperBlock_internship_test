@@ -1,5 +1,5 @@
 html {
-    --gridSize: calc(3vw);
+    --gridSize: max(4vw, 6vh);
   }
 
 .ballonBox {
@@ -73,7 +73,7 @@ html {
     top: 10%;
     left: 50%;
     margin-top: -20px;
-    margin-left: calc(-5vw);
+    margin-left: min(calc(-12.5vw), calc(-12.5vh));
 }
 
 #dark .restartButton {

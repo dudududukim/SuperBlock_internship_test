@@ -47,7 +47,7 @@ function Board({ theme }) {
     const [isBallon, setIsBallon] = useState(Array(64).fill(0));
     const [status, setStatus] = useState('');
     const [gameStarted, setGameStarted] = useState(true);
-    const [sliderValue, setSliderValue] = useState(50);
+    const [sliderValue, setSliderValue] = useState(75);
 
     function handleRangeSlider(event, value) {
         document.documentElement.style.setProperty('--gridSize', value*Math.min(window.innerHeight, window.innerWidth)/820 + 'px');
@@ -114,12 +114,12 @@ function Board({ theme }) {
         <Fragment>
             <div className="infoBox">
                 <div className="sliderBox">
-                    <Box sx={{ width: window.innerWidth/10 }}>
+                    <Box sx={{ width: Math.max(window.innerWidth/4, window.innerHeight/4) }}>
                         <Slider
                             size="small"
-                            defaultValue={40}
+                            defaultValue={60}
                             max={100}
-                            min={20}
+                            min={30}
                             aria-label="small"
                             className="slider"
                             color={theme === 'light' ? 'success' : 'secondary'}
