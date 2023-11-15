@@ -50,7 +50,10 @@ function Board({ theme }) {
     const [sliderValue, setSliderValue] = useState(75);
 
     function handleRangeSlider(event, value) {
-        document.documentElement.style.setProperty('--gridSize', value*Math.min(window.innerHeight, window.innerWidth)/920 + 'px');
+        document.documentElement.style.setProperty(
+            '--gridSize',
+            (value * Math.min(window.innerHeight, window.innerWidth * 1.4)) / 920 + 'px'
+        );
         setSliderValue(value);
     }
 
@@ -109,12 +112,11 @@ function Board({ theme }) {
     //only called when rendered
     useEffect(handleRestart, []);
 
-
     return (
         <Fragment>
             <div className="infoBox">
                 <div className="sliderBox">
-                    <Box sx={{ width: Math.max(window.innerWidth/4, window.innerHeight/4) }}>
+                    <Box sx={{ width: Math.max(window.innerWidth / 4, window.innerHeight / 4) }}>
                         <Slider
                             size="small"
                             defaultValue={60}
@@ -269,6 +271,5 @@ function poppingBallon(isBallon, currentBox) {
 
     return newIsBallon;
 }
-
 
 export default Board;
