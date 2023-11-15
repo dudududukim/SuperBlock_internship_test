@@ -50,7 +50,7 @@ function Board({ theme }) {
     const [sliderValue, setSliderValue] = useState(75);
 
     function handleRangeSlider(event, value) {
-        document.documentElement.style.setProperty('--gridSize', value*Math.min(window.innerHeight, window.innerWidth)/820 + 'px');
+        document.documentElement.style.setProperty('--gridSize', value*Math.min(window.innerHeight, window.innerWidth)/920 + 'px');
         setSliderValue(value);
     }
 
